@@ -10,18 +10,21 @@ A plugin manager for Craftbukkit Minecraft server plugins.
 ## Usage
     fillbukkit <operation> [...]
 
-### Operations
-    -A, --add                Add/install a plugin
-    -D, --disable            Disable installed plugins
-    -E, --enable             Enable installed plugins
-    -h, --help               Display this list of operations
-    -L, --list               List installed plugins
-    -V, --version            Display the version of fillbukkit
-    -R, --remove             Remove a plugin
-    -S, --search             Search for a plugin in [supported plugin list?]
-    -U, --upgrade            Upgrade installed plugins
+### Top-level Options
 
-### General Options
+    -V, --version            Display the version of fillbukkit
+    -h, --help               Display this list of operations
+
+### Operations
+    add                      Add/install a plugin
+    disable                  Disable installed plugins
+    enable                   Enable installed plugins
+    ls                       List installed plugins
+    rm                       Remove a plugin
+    search                   Search for a plugin in [supported plugin list?]
+    upgrade                  Upgrade installed plugins
+
+### Operation Options
     -h, --help               See available options for an operation
     -q, --quiet              Suppress standard operation output
     -r, --release            [-ADELS] Select the plugin release to use (stable, beta, dev)
