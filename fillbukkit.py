@@ -4,8 +4,8 @@ import argparse
 import sys
 import os
 
-import fb_cmds
-from fb_libs import *
+from cmds import *
+from lib import *
 
 def main():
     config = configwrapper.get_fb_config()
@@ -26,13 +26,13 @@ def init_argparse():
                             version='%(prog)s 0.1')
     subs = op_parser.add_subparsers()
     
-    fb_cmds.add.add_parser(subs)
-    fb_cmds.disable.add_parser(subs)
-    fb_cmds.enable.add_parser(subs)
-    fb_cmds.ls.add_parser(subs)
-    fb_cmds.rm.add_parser(subs)
-    fb_cmds.search.add_parser(subs)
-    fb_cmds.upgrade.add_parser(subs)
+    fb_add.add_parser(subs)
+    fb_disable.add_parser(subs)
+    fb_enable.add_parser(subs)
+    fb_ls.add_parser(subs)
+    fb_rm.add_parser(subs)
+    fb_search.add_parser(subs)
+    fb_upgrade.add_parser(subs)
 
     return op_parser
  
