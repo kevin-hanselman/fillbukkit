@@ -2,6 +2,7 @@
 
 import configparser
 import sys
+import os
 
 def get_fb_config():
     cfg='fillbukkit.cfg'
@@ -10,7 +11,7 @@ def get_fb_config():
         config.read(cfg)
     except configparser.ParsingError as ex:
         sys.exit(ex)
-    if not config.sections():
+    if not os.path.exists(cfg):
         sys.exit('Error: Could not find file: ' + cfg)
     return config
     
@@ -21,6 +22,6 @@ def get_dl_list():
         config.read(cfg)
     except configparser.ParsingError as ex:
         sys.exit(ex)
-    if not config.sections():
+    if not os.path.exists(cfg):
         sys.exit('Error: Could not find file: ' + cfg)
     return config

@@ -8,12 +8,11 @@ from cmds import *
 from lib import *
 
 def main():
-    config = configwrapper.get_fb_config()
+    config = configwrapper.get_dl_list()
     print(config.sections())
     
     parser = init_argparse()
     args = parser.parse_args()
-    print(args)
     args.func(args)
     
 def init_argparse():
