@@ -1,8 +1,7 @@
 #! /usr/bin/python3
+'''A command-line plugin manager for Craftbukkit Minecraft servers.'''
 
 import argparse
-import sys
-import os
 
 from cmds import *
 from lib import *
@@ -16,9 +15,7 @@ def main():
     args.func(args)
     
 def init_argparse():
-    desc='A command-line plugin manager for Craftbukkit Minecraft servers.'
-
-    op_parser = argparse.ArgumentParser(description=desc)
+    op_parser = argparse.ArgumentParser(description=__doc__)
     op_parser.add_argument('-V','--version',
                             help='Display the version of %(prog)s',
                             action='version', 

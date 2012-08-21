@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#! /usr/bin/python3
+'''Add/install plugins'''
 
 import argparse
 
@@ -6,7 +7,7 @@ def cmd(args):
     print('add: %r' % args)
     
 def add_parser(sub):
-    parser = sub.add_parser('add', help='Add/install a plugin')
+    parser = sub.add_parser('add', help=__doc__, description=__doc__)
     parser.add_argument('-r','--release', 
                         choices=('stable','beta','dev'), 
                         default='stable', 
