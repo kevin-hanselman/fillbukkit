@@ -20,6 +20,6 @@ def cmd(args):
 
 def add_parser(sub):
     p = sub.add_parser('search', help=__doc__, description=__doc__)
-    p.add_argument('pattern', help='a pattern to search plugin names for', nargs='?', default='.')
+    p.add_argument('pattern', help='search pattern for plugin names', nargs='?', default='.')
     p.add_argument('-d', help='search plugin description, as well as plugin name', action='store_true')
     p.set_defaults(func=cmd)
