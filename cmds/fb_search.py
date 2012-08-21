@@ -2,11 +2,18 @@
 '''Search for supported plugins'''
 
 import argparse
+import re
 from lib import config
 
 def cmd(args):
-    print('search: %r' % args)   
-    
+    # print('search: %r' % args)   
+    dl = config.FBDownloadList()   
+    plugs = [p for p in dl.plugins() if re.search(args.pattern, p)]
+    descs = map(lambda p: dl.parser[p].get('description'), plugs)
+    for p, d in zip(plugs, descs):
+        print('%s\n\t%s\n' % (p, d))
+
 def add_parser(sub):
-    parser = sub.add_parser('search', help=__doc__, description=__doc__)
-    parser.set_defaults(func=cmd)
+    p = sub.add_parser('search', help=__doc__, description=__doc__)
+    p.add_argument('pattern', help='a pattern to search plugin names for')
+    p.set_defaults(func=cmd)

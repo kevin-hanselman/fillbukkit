@@ -21,3 +21,8 @@ class FBConfig(ConfigWrap):
 class FBDownloadList(ConfigWrap):
     def __init__(self):
         ConfigWrap.__init__(self, 'dl.cfg')
+        
+    def plugins(self):
+        p = self.parser.sections()
+        p.remove('craftbukkit')
+        return p

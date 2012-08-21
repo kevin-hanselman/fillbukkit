@@ -6,10 +6,7 @@ import argparse
 from cmds import *
 from lib import *
 
-def main():
-    cfg = config.FBDownloadList()
-    print(cfg.parser.sections())
-    
+def main():  
     parser = init_argparse()
     args = parser.parse_args()
     args.func(args)
