@@ -4,22 +4,33 @@ import sys
 import os
 import filecmp
 import shutil
-from urllib.request import urlretrieve, urlopen, FancyURLopener
+import zipfile
+from urllib.request import urlretrieve, urlopen, FancyURLopener, urlcleanup
+
+class HTTPError(Exception):
+    pass
 
 def download(url, filename):
-    tmp = filename+'.tmp'
-    furlo = FancyURLopener({})
+    furlo = FBURLopener({})
     try:
-        furlo.retrieve(url, tmp)
-    except IOError as ex:
+        tmpfile, msg = furlo.retrieve(url)
+    except HTTPError as ex:
+        urlcleanup()
         sys.exit(ex)
 
-    if os.path.exists(filename) and filecmp.cmp(filename,tmp):
+    if os.path.exists(filename) and filecmp.cmp(filename,tmpfile):
         print('You already have the newest version')
-        os.remove(tmp)
     else:
-        shutil.copyfile(tmp,filename)
+        shutil.copyfile(tmpfile,filename)
         print('Updated successfully')
-    
+    urlcleanup()
+        
+class FBURLopener(FancyURLopener):
+    def http_error_default(self, url, fp, errorcode, errmsg, headers):
+        if errorcode >= 400:
+            raise HTTPError(str(errorcode) + ': ' + errmsg)
+        else:
+            FancyURLopener.http_error_default(self, url, fp, errorcode, errmsg, headers)
+        
 if __name__ == "__main__":
     download("http://ess.ementalo.com/repository/download/bt2/.lastSuccessful/Essentials.zip?guest=1", "Ess.zip")

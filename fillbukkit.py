@@ -8,8 +8,8 @@ from cmds import *
 from lib import *
 
 def main():
-    config = configwrapper.get_dl_list()
-    print(config.sections())
+    cfg = config.FBDownloadList()
+    print(cfg.parser.sections())
     
     parser = init_argparse()
     args = parser.parse_args()
