@@ -2,10 +2,12 @@
 ==========
 A plugin manager for Craftbukkit Minecraft server plugins.
 
+## Requires
+- Python 3.x
+
 ## Features
 - Install/update Bukkit plugins
 - Install/update Craftbukkit server JAR
-- Configurable start/stop/restart server for easy integration?
 
 ## Usage
     fillbukkit <operation> [...]
@@ -32,18 +34,19 @@ A plugin manager for Craftbukkit Minecraft server plugins.
     -c, --craftbukkit        [-U] Perform an operation on the Craftbukkit JAR
 
 ## Configuration File
+- Path to base Craftbukkit server folder
 - Path to Craftbukkit plugins folder
 - Path to disabled plugins folder
-- Default release (stable, beta, dev) of Craftbukkit to use
-- Default release (stable, beta, dev) for plugins (if not specified)
 
 ## Plugin List File
-Each plugin will be a Section and can have the following Properties:
+Each plugin name is a `[section]` and has the following keys/options:
 
 ### Required properties
-- stable
-- jars
+- `description`: a description of the plugin
+- `stable`: URL to the latest stable build of the plugin
+- `jars`: a list of JAR files used by the plugin 
+- `format`: file format for the download URLs (e.g. jar, zip, tar, etc.)
 
 ### Optional properties
-- beta
-- dev
+- `beta`: URL to the latest beta build of the plugin
+- `dev`: URL to the latest unstable/dev build of the plugin
