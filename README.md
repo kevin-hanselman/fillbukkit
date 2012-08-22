@@ -6,8 +6,8 @@ A plugin manager for Craftbukkit Minecraft server plugins.
 - Python 3.x
 
 ## Features
-- Install/update Bukkit plugins
-- Install/update Craftbukkit server JAR
+- Install, update, enable and disable Craftbukkit plugins
+- Install and update the Craftbukkit server JAR
 
 ## Usage
     fillbukkit <operation> [...]
@@ -27,8 +27,7 @@ A plugin manager for Craftbukkit Minecraft server plugins.
     upgrade                  Upgrade installed plugins
 
 ### Operation Options
-    -h, --help               See available options for an operation
-    -q, --quiet              Suppress standard operation output
+    -h, --help               See more detailed options for an operation
     -r, --release            Select the plugin release to use (stable, beta, dev)
     -a, --all                Perform operation for all installed plugins
     -c, --craftbukkit        Perform an operation on the Craftbukkit JAR
