@@ -6,14 +6,20 @@ import re
 from lib import config
 
 def cmd(args):
+    # print('search: %r' % args)   
     dl = config.FBDownloadList()
-    plugs = [p for p in dl.plugins() if re.search(args.pattern, p)]
-    descs = map(lambda p: dl.parser[p].get('description'), plugs)
-    for p, d in zip(plugs, descs):
+    data = list(zip(dl.plugins(), list(dl.parser[p].get('description') for p in dl.plugins())))
+
+    if args.d:
+        plugs = [(p,d) for p,d in data if re.search(args.pattern, ' '.join([p, d]), re.IGNORECASE)]
+    else:
+        plugs = [(p,d) for p,d in data if re.search(args.pattern, p, re.IGNORECASE)]
+    
+    for p, d in plugs:
         print('%s\n\t%s\n' % (p, d))
 
 def add_parser(sub):
     p = sub.add_parser('search', help=__doc__, description=__doc__)
-    p.add_argument('pattern', help='search pattern for plugin names', 
-                nargs='?', default='.')
+    p.add_argument('pattern', help='search pattern for plugin names', nargs='?', default='.')
+    p.add_argument('-d', help='search plugin description, as well as plugin name', action='store_true')
     p.set_defaults(func=cmd)
