@@ -5,10 +5,9 @@ import argparse
 import re
 from lib import config
 
-def cmd(args):
-    # print('search: %r' % args)   
+def cmd(args):  
     dl = config.FBDownloadList()
-    data = list(zip(dl.plugins(), list(dl.parser[p].get('description') for p in dl.plugins())))
+    data = list(zip(dl.plugins(), dl.keys('description')))
 
     if args.d:
         plugs = [(p,d) for p,d in data if re.search(args.pattern, ' '.join([p, d]), re.IGNORECASE)]
