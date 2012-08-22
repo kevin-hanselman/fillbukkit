@@ -14,7 +14,7 @@ def main():
 def init_argparse():
     op_parser = argparse.ArgumentParser(description=__doc__)
     op_parser.add_argument('-V','--version',
-                            help='Display the version of %(prog)s',
+                            help='display the version of %(prog)s',
                             action='version', 
                             version='%(prog)s 0.1')
     subs = op_parser.add_subparsers()

@@ -15,7 +15,7 @@ A plugin manager for Craftbukkit Minecraft server plugins.
 ### Top-level Options
 
     -V, --version            Display the version of fillbukkit
-    -h, --help               Display this list of operations
+    -h, --help               Display a list of operations
 
 ### Operations
     add                      Add/install a plugin
@@ -29,9 +29,9 @@ A plugin manager for Craftbukkit Minecraft server plugins.
 ### Operation Options
     -h, --help               See available options for an operation
     -q, --quiet              Suppress standard operation output
-    -r, --release            [-ADELS] Select the plugin release to use (stable, beta, dev)
-    -a, --all                [-DELU] Perform operation for all installed plugins
-    -c, --craftbukkit        [-U] Perform an operation on the Craftbukkit JAR
+    -r, --release            Select the plugin release to use (stable, beta, dev)
+    -a, --all                Perform operation for all installed plugins
+    -c, --craftbukkit        Perform an operation on the Craftbukkit JAR
 
 ## Configuration File
 - Path to base Craftbukkit server folder
@@ -44,7 +44,7 @@ Each plugin name is a `[section]` and has the following keys/options:
 ### Required properties
 - `description`: a description of the plugin
 - `stable`: URL to the latest stable build of the plugin
-- `jars`: a list of JAR files used by the plugin 
+- `jars`: a list of JAR files used by the plugin
 - `format`: file format for the download URLs (e.g. jar, zip, tar, etc.)
 
 ### Optional properties
