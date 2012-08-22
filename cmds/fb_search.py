@@ -11,9 +11,9 @@ def cmd(args):
     data = list(zip(dl.plugins(), list(dl.parser[p].get('description') for p in dl.plugins())))
 
     if args.d:
-        plugs = [(k,v) for k,v in data if re.search(args.pattern, ' '.join([k, v]))]
+        plugs = [(p,d) for p,d in data if re.search(args.pattern, ' '.join([p, d]))]
     else:
-        plugs = [(k,v) for k,v in data if re.search(args.pattern, k)]
+        plugs = [(p,d) for p,d in data if re.search(args.pattern, p)]
     
     for p, d in plugs:
         print('%s\n\t%s\n' % (p, d))
