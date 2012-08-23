@@ -13,7 +13,8 @@ class HTTPError(Exception):
 def download(url, filename):
     furlo = FBURLopener({})
     try:
-        tmpfile, msg = furlo.retrieve(url)
+        tmpfile, msg = furlo.retrieve(url, reporthook=rhook)
+        print()
     except HTTPError as ex:
         urlcleanup()
         sys.exit(ex)
@@ -25,6 +26,23 @@ def download(url, filename):
         print('[placeholder] Updated successfully')
     urlcleanup()
 
+def rhook(blocks_read, block_size, total_size):
+    amount_read = blocks_read * block_size
+    if total_size > 0:
+        sys.stdout.write("\rDownloading: %2d%% of %s" 
+                        % (amount_read/total_size*100, sizeof_fmt(total_size)))
+        sys.stdout.flush()
+    else:
+        # unknown size
+        sys.stdout.write("\rDownloading: %s" % sizeof_fmt(amount_read))
+        sys.stdout.flush()
+    
+def sizeof_fmt(num):
+    for x in ['bytes','KB','MB','GB']:
+        if num < 1024.0:
+            return "%4.2f%s" % (num, x)
+        num /= 1024.0
+    
 class FBURLopener(FancyURLopener):
     def http_error_default(self, url, fp, errorcode, errmsg, headers):
         if errorcode >= 400:
