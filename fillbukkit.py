@@ -2,11 +2,13 @@
 '''A command-line plugin manager for Craftbukkit Minecraft servers.'''
 
 import argparse
+import os
 
 from cmds import *
-from lib import *
 
-def main():  
+def main():
+    # change working directory to where the script/config files are located
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
     parser = init_argparse()
     args = parser.parse_args()
     args.func(args)

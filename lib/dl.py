@@ -5,7 +5,6 @@ import sys
 import os
 import filecmp
 import shutil
-import zipfile
 from urllib.request import urlretrieve, urlopen, FancyURLopener, urlcleanup
 
 class HTTPError(Exception):
@@ -34,4 +33,5 @@ class FBURLopener(FancyURLopener):
             FancyURLopener.http_error_default(self, url, fp, errorcode, errmsg, headers)
 
 if __name__ == "__main__":
-    download("http://ess.ementalo.com/repository/download/bt2/.lastSuccessful/Essentials.zip?guest=1", "Ess.zip")
+    download("http://ess.ementalo.com/repository/download/bt2/.lastSuccessful/Essentials.zip?guest=1", 
+            "Ess.zip")

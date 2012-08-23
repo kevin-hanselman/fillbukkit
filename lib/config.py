@@ -5,22 +5,23 @@ import configparser
 import sys
 import os
 
-class ConfigWrap:
+class ConfigWrap(configparser.ConfigParser):
     '''Base class wrapper'''
-    def __init__(self, filename):
-        self.parser = configparser.ConfigParser()
+    def __init__(self, cfgpath):
+        configparser.ConfigParser.__init__(self)
+        if not os.path.exists(cfgpath):
+            sys.exit('Error: Could not locate file: ' + cfgpath)
         try:
-            self.parser.read(filename)
+            self.read(os.path.expanduser(cfgpath))
         except configparser.ParsingError as ex:
             sys.exit(ex)
-        if not os.path.exists(filename):
-            sys.exit('Error: Could not find file: ' + filename)
+        self.path, self.filename = os.path.split(cfgpath)
 
     def keys(self, key, sects=None):
         if not sects:
-            sects = self.parser.sections()
+            sects = self.sections()
         try:
-            keys = [self.parser.get(s, key) for s in sects]
+            keys = [self.get(s, key) for s in sects]
         except configparser.Error as ex:
             sys.exit(ex)
         return keys
@@ -30,23 +31,23 @@ class FBConfig(ConfigWrap):
     def __init__(self):
         ConfigWrap.__init__(self, 'fillbukkit.cfg')
         
-    def base_dir():
+    def base_dir(self):
         try:
-            dir = self.parser.get('Directories', 'craftbukkit')
+            dir = self.get('Directories', 'craftbukkit')
         except configparser.Error as ex:
             sys.exit(ex)
         return dir
         
-    def plugin_dir():
+    def plugin_dir(self):
         try:
-            dir = self.parser.get('Directories', 'plugins')
+            dir = self.get('Directories', 'plugins')
         except configparser.Error as ex:
             sys.exit(ex)
         return dir
         
-    def disabled_dir():
+    def disabled_dir(self):
         try:
-            dir = self.parser.get('Directories', 'disabled')
+            dir = self.get('Directories', 'disabled')
         except configparser.Error as ex:
             sys.exit(ex)
         return dir
@@ -57,7 +58,7 @@ class FBDownloadList(ConfigWrap):
         ConfigWrap.__init__(self, 'dl.cfg')
         
     def plugins(self):
-        p = self.parser.sections()
+        p = self.sections()
         try:
             p.remove('craftbukkit')
         except configparser.NoSectionError as ex:
@@ -66,3 +67,8 @@ class FBDownloadList(ConfigWrap):
 
     def keys(self, key):
         return ConfigWrap.keys(self, key, self.plugins())
+        
+class FBPlugins(ConfigWrap):
+    '''Wrapper for the lists of enabled/disabled plugins'''
+    def __init__(self):
+        ConfigWrap.__init__(self, 'plugins.cfg')

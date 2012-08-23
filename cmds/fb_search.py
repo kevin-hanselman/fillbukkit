@@ -5,7 +5,7 @@ import argparse
 import re
 from lib import config
 
-def cmd(args):  
+def cmd(args):
     dl = config.FBDownloadList()
     data = list(zip(dl.plugins(), dl.keys('description')))
 
