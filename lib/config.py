@@ -5,6 +5,9 @@ import configparser
 import sys
 import os
 
+class NoPluginError(Exception):
+    pass
+
 class ConfigWrap(configparser.ConfigParser):
     '''Base class wrapper'''
     def __init__(self, cfgpath):
@@ -16,53 +19,61 @@ class ConfigWrap(configparser.ConfigParser):
         except configparser.ParsingError as ex:
             sys.exit(ex)
         self.path, self.filename = os.path.split(cfgpath)
-
+        
     def keys(self, key, sects=None):
         if not sects:
             sects = self.sections()
         try:
             keys = [self.get(s, key) for s in sects]
         except configparser.Error as ex:
-            sys.exit(ex)
+            self.fatal_report(ex)
         return keys
 
+    def report(self, err):
+        return str(self.filename + ': '+ str(err))
+
+    def fatal_report(self, err):
+        sys.exit(self.report(err))
+        
 class FBConfig(ConfigWrap):
     '''Wrapper for the fillbukkit config file'''
     def __init__(self):
         ConfigWrap.__init__(self, 'fillbukkit.cfg')
         
-    def base_dir(self):
+    def get_dir(self, dir):
         try:
-            dir = self.get('Directories', 'craftbukkit')
+            dir = self.get('Directories', dir)
         except configparser.Error as ex:
-            sys.exit(ex)
-        return dir
+            self.fatal_report(ex)
+        return os.path.expanduser(dir)
+        
+    def base_dir(self):
+        return get_dir(self, 'craftbukkit')
         
     def plugin_dir(self):
-        try:
-            dir = self.get('Directories', 'plugins')
-        except configparser.Error as ex:
-            sys.exit(ex)
-        return dir
+        return get_dir(self, 'plugins')
         
     def disabled_dir(self):
-        try:
-            dir = self.get('Directories', 'disabled')
-        except configparser.Error as ex:
-            sys.exit(ex)
-        return dir
+        return get_dir(self, 'disabled')
     
-class FBDownloadList(ConfigWrap):
+class FBDownloadList(ConfigWrap):       
     '''Wrapper for the download list file'''
     def __init__(self):
         ConfigWrap.__init__(self, 'dl.cfg')
-        
+    
+    def plugin(self, pname):
+        try:
+            plug = self[pname]
+        except KeyError as ex:
+            raise NoPluginError('Could not find plugin: ' + pname)
+        return plug
+    
     def plugins(self):
         p = self.sections()
         try:
             p.remove('craftbukkit')
         except configparser.NoSectionError as ex:
-            sys.exit(ex)
+            self.fatal_report(ex)
         return p
 
     def keys(self, key):

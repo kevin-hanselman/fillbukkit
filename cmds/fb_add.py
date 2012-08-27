@@ -1,17 +1,21 @@
 #! /usr/bin/python3
-'''Add/install plugins'''
+'''Add/install plugins or Craftbukkit'''
 
 import argparse
 import os
+import configparser
+import sys
 from lib import *
 
-class NoPluginError(Exception):
-    pass
-
 def cmd(args):
-    print('add: %r' % args)
-    dl = config.FBConfig()
-    s = os.path.expanduser(dl.plugin_dir())
+    dl = config.FBDownloadList()
+    try:
+        plug = dl.plugin(args.plugin)
+    except config.NoPluginError as ex:
+        sys.exit(ex)
+    except configparser.Error as ex:
+        sys.exit('Error: ' + ex)
+    print(dlfile)
     
 def add_parser(sub):
     parser = sub.add_parser('add', help=__doc__, description=__doc__)
@@ -21,3 +25,4 @@ def add_parser(sub):
                         help='select the plugin release to add')
     parser.add_argument('plugin', help='the name of the plugin to add')
     parser.set_defaults(func=cmd)
+    

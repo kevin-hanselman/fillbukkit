@@ -2,18 +2,20 @@
 ==========
 A plugin manager for Craftbukkit Minecraft server plugins.
 
-## Requires
-- Python 3.x
-
 ## Features
 - Install, update, enable and disable Craftbukkit plugins
 - Install and update the Craftbukkit server JAR
+
+## Requirements
+- Python 3.x
+
+## Want to add support for a plugin?
+- Make a pull request adding a section to the plugin list file as described below
 
 ## Usage
     fillbukkit <operation> [...]
 
 ### Top-level Options
-
     -V, --version            Display the version of fillbukkit
     -h, --help               Display a list of operations
 
@@ -43,8 +45,8 @@ Each plugin name is a `[section]` and has the following keys/options:
 ### Required properties
 - `description`: a description of the plugin
 - `stable`: URL to the latest stable build of the plugin
-- `jars`: a list of JAR files used by the plugin
 - `format`: file format for the download URLs (e.g. jar, zip, tar, etc.)
+- `jars`: a comma-separated list of JAR files used by the plugin (only accessed if `format` is not `jar`)
 
 ### Optional properties
 - `beta`: URL to the latest beta build of the plugin

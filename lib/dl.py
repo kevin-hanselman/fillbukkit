@@ -1,5 +1,5 @@
 #! /usr/bin/python3
-'''Handling web downloads for fillbukkit'''
+'''Handles web downloads for fillbukkit'''
 
 import sys
 import os
@@ -10,21 +10,25 @@ from urllib.request import urlretrieve, urlopen, FancyURLopener, urlcleanup
 class HTTPError(Exception):
     pass
 
-def download(url, filename):
-    furlo = FBURLopener({})
-    try:
-        tmpfile, msg = furlo.retrieve(url, reporthook=rhook)
-        print()
-    except HTTPError as ex:
-        urlcleanup()
-        sys.exit(ex)
+class FBPluginDownloader:
+    def __init__(self, plugin, url, format, jar):
+        self.plugin = pluginSect
 
-    if os.path.exists(filename) and filecmp.cmp(filename,tmpfile):
-        print('[placeholder] You already have the newest version')
-    else:
-        shutil.copyfile(tmpfile,filename)
-        print('[placeholder] Updated successfully')
-    urlcleanup()
+    def download():
+        furlo = FBURLopener({})
+        try:
+            tmpfile, msg = furlo.retrieve(url, reporthook=rhook)
+            print()
+        except HTTPError as ex:
+            urlcleanup()
+            sys.exit(ex)
+
+        if os.path.exists(filename) and filecmp.cmp(filename,tmpfile):
+            print('You already have the newest version of ' + plugin)
+        else:
+            shutil.copyfile(tmpfile,filename)
+            print('[placeholder] Updated successfully')
+        urlcleanup()
 
 def rhook(blocks_read, block_size, total_size):
     amount_read = blocks_read * block_size
@@ -49,7 +53,3 @@ class FBURLopener(FancyURLopener):
             raise HTTPError(str(errorcode) + ': ' + errmsg)
         else:
             FancyURLopener.http_error_default(self, url, fp, errorcode, errmsg, headers)
-
-if __name__ == "__main__":
-    download("http://ess.ementalo.com/repository/download/bt2/.lastSuccessful/Essentials.zip?guest=1", 
-            "Ess.zip")
