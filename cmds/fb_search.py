@@ -3,10 +3,10 @@
 
 import argparse
 import re
-from lib import config
+from lib import fb_config
 
 def cmd(args):
-    dl = config.FBDownloadList()
+    dl = fb_config.FBDownloadList()
     data = list(zip(dl.plugins(), dl.keys('description')))
 
     if args.d:

@@ -19,7 +19,7 @@ class ConfigWrap(configparser.ConfigParser):
         except configparser.ParsingError as ex:
             sys.exit(ex)
         self.path, self.filename = os.path.split(cfgpath)
-        
+
     def keys(self, key, sects=None):
         if not sects:
             sects = self.sections()
@@ -30,33 +30,33 @@ class ConfigWrap(configparser.ConfigParser):
         return keys
 
     def report(self, err):
-        return str(self.filename + ': '+ str(err))
+        return ': '.join(('Error', self.filename, str(err)))
 
     def fatal_report(self, err):
         sys.exit(self.report(err))
-        
+
 class FBConfig(ConfigWrap):
     '''Wrapper for the fillbukkit config file'''
     def __init__(self):
         ConfigWrap.__init__(self, 'fillbukkit.cfg')
-        
+
     def get_dir(self, dir):
         try:
             dir = self.get('Directories', dir)
         except configparser.Error as ex:
             self.fatal_report(ex)
         return os.path.expanduser(dir)
-        
+
     def base_dir(self):
         return get_dir(self, 'craftbukkit')
-        
+
     def plugin_dir(self):
         return get_dir(self, 'plugins')
-        
+
     def disabled_dir(self):
         return get_dir(self, 'disabled')
-    
-class FBDownloadList(ConfigWrap):       
+
+class FBDownloadList(ConfigWrap):
     '''Wrapper for the download list file'''
     def __init__(self):
         ConfigWrap.__init__(self, 'dl.cfg')
@@ -79,7 +79,7 @@ class FBDownloadList(ConfigWrap):
     def keys(self, key):
         return ConfigWrap.keys(self, key, self.plugins())
         
-class FBPlugins(ConfigWrap):
+class FBPluginInfo(ConfigWrap):
     '''Wrapper for the lists of enabled/disabled plugins'''
     def __init__(self):
         ConfigWrap.__init__(self, 'plugins.cfg')

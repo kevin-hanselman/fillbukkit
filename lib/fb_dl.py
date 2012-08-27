@@ -7,29 +7,37 @@ import filecmp
 import shutil
 from urllib.request import urlretrieve, urlopen, FancyURLopener, urlcleanup
 
+from lib import fb_config
+
 class HTTPError(Exception):
     pass
 
-class FBPluginDownloader:
-    def __init__(self, plugin, url, format, jar):
-        self.plugin = pluginSect
+class FBDownloadManager:
+    def __init__(self, plugin, url, format, jars):
+        self.plugin = plugin
+        self.url = url
+        self.format = format
+        self.jars = jars
 
-    def download():
+    def download(self):
         furlo = FBURLopener({})
         try:
-            tmpfile, msg = furlo.retrieve(url, reporthook=rhook)
+            tmpfile, msg = furlo.retrieve(self.url, reporthook=rhook)
             print()
         except HTTPError as ex:
             urlcleanup()
             sys.exit(ex)
-
-        if os.path.exists(filename) and filecmp.cmp(filename,tmpfile):
-            print('You already have the newest version of ' + plugin)
+        filename = self.filename()
+        if os.path.exists(filename) and filecmp.cmp(filename, tmpfile):
+            print('You already have the newest version of ' + self.plugin)
         else:
-            shutil.copyfile(tmpfile,filename)
-            print('[placeholder] Updated successfully')
+            shutil.copyfile(tmpfile, filename)
+            print(self.plugin + ' updated successfully.')
         urlcleanup()
-
+    
+    def filename(self):
+        return self.plugin + '.' + self.format
+    
 def rhook(blocks_read, block_size, total_size):
     amount_read = blocks_read * block_size
     if total_size > 0:

@@ -8,15 +8,23 @@ import sys
 from lib import *
 
 def cmd(args):
-    dl = config.FBDownloadList()
+    dlcfg = fb_config.FBDownloadList()
     try:
-        plug = dl.plugin(args.plugin)
-    except config.NoPluginError as ex:
-        sys.exit(ex)
+        plug = dlcfg.plugin(args.plugin)
+        dlman = fb_dl.FBDownloadManager(plugin=plug.name, 
+                            url=plug[args.release],
+                            format=plug['format'],
+                            jars=plug['jars'])
+    except fb_config.NoPluginError as ex:
+        sys.exit('Error: ' + str(ex))
     except configparser.Error as ex:
-        sys.exit('Error: ' + ex)
-    print(dlfile)
+        sys.exit('Error: ' + str(ex))
+    except KeyError as ex:
+        sys.exit('[placeholder]' + str(ex))
     
+    dlman.download()
+    
+        
 def add_parser(sub):
     parser = sub.add_parser('add', help=__doc__, description=__doc__)
     parser.add_argument('-r','--release', 

@@ -1,3 +1,2 @@
 #! /usr/bin/python3
-__all__ = ["config", "dl"]
-#from . import configwrapper
+__all__ = ["fb_config", "fb_dl"]
