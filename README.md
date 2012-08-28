@@ -25,7 +25,7 @@ A plugin manager for Craftbukkit Minecraft server plugins.
     enable                   Enable installed plugins
     ls                       List installed plugins
     rm                       Remove a plugin
-    search                   Search for a plugin in [supported plugin list?]
+    search                   Search for a supported plugin
     upgrade                  Upgrade installed plugins
 
 ### Operation Options
@@ -35,19 +35,22 @@ A plugin manager for Craftbukkit Minecraft server plugins.
     -c, --craftbukkit        Perform an operation on the Craftbukkit JAR
 
 ## Configuration File
-- Path to base Craftbukkit server folder
-- Path to Craftbukkit plugins folder
-- Path to disabled plugins folder
+These are the options provided in the file `fillbukkit.cfg`:
+- `craftbukkit`: Path to base Craftbukkit server folder
+- `plugins`: Path to Craftbukkit plugins folder. This shouldn't need to be changed.
+- `update`: Path to the Craftbukkit plugins-update folder. This shouldn't need to be changed.
+- `disabled`: Path to disabled plugins folder. This is where JAR not being run on your server will be temporarily stored.
+- `dlcache`: Path to the folder to keep old downloaded archives. This allows `upgrade` to determine the need to copy new JARs.
 
 ## Plugin List File
-Each plugin name is a `[section]` and has the following keys/options:
+These are the options provided in the file `dl.cfg`. 
+Each plugin name is a `[section]` and has the following options:
 
-### Required properties
-- `description`: a description of the plugin
-- `stable`: URL to the latest stable build of the plugin
-- `format`: file format for the download URLs (e.g. jar, zip, tar, etc.)
-- `jars`: a comma-separated list of JAR files used by the plugin (only accessed if `format` is not `jar`)
+### Required Plugin Properties
+- `description`: a short description of the plugin
+- `stable`: URL to the latest stable/recommended build of the plugin
+- `format`: file format for the download URLs (one of `jar`, `zip`, `tar`, `bztar`, or `gztar`)
 
-### Optional properties
+### Optional Plugin Properties
 - `beta`: URL to the latest beta build of the plugin
-- `dev`: URL to the latest unstable/dev build of the plugin
+- `dev`: URL to the latest bleeding-edge/dev build of the plugin

@@ -4,15 +4,16 @@
 import configparser
 import sys
 import os
+import errno
 
 class NoPluginError(Exception):
     pass
 
 class ConfigWrap(configparser.ConfigParser):
     '''Base class wrapper'''
-    def __init__(self, cfgpath):
+    def __init__(self, cfgpath, must_exist=True):
         configparser.ConfigParser.__init__(self)
-        if not os.path.exists(cfgpath):
+        if must_exist and not os.path.exists(cfgpath):
             sys.exit('Error: Could not locate file: ' + cfgpath)
         try:
             self.read(os.path.expanduser(cfgpath))
@@ -40,21 +41,34 @@ class FBConfig(ConfigWrap):
     def __init__(self):
         ConfigWrap.__init__(self, 'fillbukkit.cfg')
 
-    def get_dir(self, dir):
+    def get_dir(self, dir, create=True):
         try:
             dir = self.get('Directories', dir)
         except configparser.Error as ex:
             self.fatal_report(ex)
-        return os.path.expanduser(dir)
+        dirpath = os.path.expanduser(dir)
+        if create:
+            try:
+                os.makedirs(dirpath)
+            except OSError as ex:
+                if ex.errno != errno.EEXIST:
+                    sys.exit(ex)
+        return dirpath
 
     def base_dir(self):
-        return get_dir(self, 'craftbukkit')
+        return self.get_dir('craftbukkit')
 
+    def update_dir(self):
+        return self.get_dir('update')
+        
     def plugin_dir(self):
-        return get_dir(self, 'plugins')
+        return self.get_dir('plugins')
 
     def disabled_dir(self):
-        return get_dir(self, 'disabled')
+        return self.get_dir('disabled')
+        
+    def cache_dir(self):
+        return self.get_dir('dlcache')
 
 class FBDownloadList(ConfigWrap):
     '''Wrapper for the download list file'''
@@ -65,7 +79,7 @@ class FBDownloadList(ConfigWrap):
         try:
             plug = self[pname]
         except KeyError as ex:
-            raise NoPluginError('Could not find plugin: ' + pname)
+            raise NoPluginError('Error: Could not find plugin: ' + pname)
         return plug
     
     def plugins(self):
@@ -82,4 +96,47 @@ class FBDownloadList(ConfigWrap):
 class FBPluginInfo(ConfigWrap):
     '''Wrapper for the lists of enabled/disabled plugins'''
     def __init__(self):
-        ConfigWrap.__init__(self, 'plugins.cfg')
+        ConfigWrap.__init__(self, 'plugin.info', False)
+    
+    def is_installed(self, plugin):
+        return self.has_option('disabled', plugin) \
+            or self.has_option('enabled', plugin)
+    
+    def add_disabled(self, plugin, release):
+        try:
+            self.remove_option('enabled', plugin)
+        except configparser.NoSectionError:
+            pass
+        try:
+            self.set('disabled', plugin, release)
+        except configparser.NoSectionError:
+            self['disabled'] = {}
+            self.set('disabled', plugin, release)
+        self.save()
+        
+    def add_enabled(self, plugin, release):
+        try:
+            self.remove_option('disabled', plugin)
+        except configparser.NoSectionError:
+            pass
+        try:
+            self.set('enabled', plugin, release)
+        except configparser.NoSectionError:
+            self['enabled'] = {}
+            self.set('enabled', plugin, release)
+        self.save()
+        
+    def rm_entry(self, plugin):
+        try:
+            self.remove_option('disabled', plugin)
+        except configparser.NoSectionError:
+            pass
+        try:
+            self.remove_option('enabled', plugin)
+        except configparser.NoSectionError:
+            pass
+        self.save()
+        
+    def save(self):
+        with open(self.filename, 'w') as configfile:
+            self.write(configfile)
