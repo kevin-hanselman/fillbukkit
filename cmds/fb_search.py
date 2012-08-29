@@ -13,9 +13,10 @@ def cmd(args):
         plugs = [(p,d) for p,d in data if re.search(args.pattern, ' '.join([p, d]), re.IGNORECASE)]
     else:
         plugs = [(p,d) for p,d in data if re.search(args.pattern, p, re.IGNORECASE)]
-    
+
     for p, d in plugs:
-        print('%s\n\t%s\n' % (p, d))
+        options = ', '.join([o for o in dl.options(p) if o != 'description' and o != 'format'])
+        print('%s [%s]\n\t%s\n' % (p, options, d))
 
 def add_parser(sub):
     p = sub.add_parser('search', help=__doc__, description=__doc__)
