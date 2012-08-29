@@ -30,6 +30,13 @@ class ConfigWrap(configparser.ConfigParser):
             self.fatal_report(ex)
         return keys
 
+    def links(self, section):
+        try:
+            links = {ver:url for ver,url in self.items(section) if ver != 'description' and ver != 'format'}
+        except configparser.Error as ex:
+            self.fatal_report(ex)
+        return links
+
     def report(self, err):
         return ': '.join(('Error', self.filename, str(err)))
 
