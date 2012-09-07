@@ -5,7 +5,7 @@ import sys
 import os
 import filecmp
 import shutil
-from urllib.request import urlretrieve, urlopen, FancyURLopener, urlcleanup
+from urllib.request import urlretrieve, urlopen, FancyURLopener, urlcleanup, URLError
 
 from lib import fb_config
 
