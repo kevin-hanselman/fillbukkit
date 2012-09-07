@@ -39,6 +39,9 @@ class FBDownloadManager:
         except HTTPError as ex:
             urlcleanup()
             sys.exit(ex)
+        except URLError as ex:
+            urlcleanup()
+            sys.exit(ex)
         if os.path.exists(self.dlpath) and filecmp.cmp(self.dlpath, tmpfile):
             print('You already have the newest version of ' + self.plugin)
             done = True

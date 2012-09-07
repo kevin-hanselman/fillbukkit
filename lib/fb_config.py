@@ -97,13 +97,13 @@ class FBDownloadList(ConfigWrap):
             self.fatal_report(ex)
         return p
 
-    def keys(self, key):
-        return ConfigWrap.keys(self, key, self.plugins())
-        
 class FBPluginInfo(ConfigWrap):
     '''Wrapper for the lists of enabled/disabled plugins'''
     def __init__(self):
-        ConfigWrap.__init__(self, 'plugin.info', False)
+        fb_cfg = FBConfig()
+        path = os.path.join(fb_cfg.base_dir(), 'plugin.info')
+        print(path)
+        ConfigWrap.__init__(self, path, False)
     
     def is_installed(self, plugin):
         return self.has_option('disabled', plugin) \

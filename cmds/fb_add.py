@@ -28,7 +28,6 @@ def cmd(args):
                     + args.release + ' release')
         else:
             sys.exit('Error: ' + str(ex))
-    
     dlman.download()
     plinfo.add_enabled(plug.name, args.release)
       
