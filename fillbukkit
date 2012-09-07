@@ -1,5 +1,5 @@
 #! /usr/bin/python3
-'''A command-line plugin manager for Craftbukkit Minecraft servers.'''
+'''A command-line Bukkit plugin manager for Craftbukkit-based Minecraft servers.'''
 
 import argparse
 import os

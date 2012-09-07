@@ -1,6 +1,6 @@
 ﻿fillbukkit
 ==========
-A plugin manager for Craftbukkit Minecraft server plugins.
+A command-line Bukkit plugin manager for Craftbukkit-based Minecraft servers.
 
 ## Features
 - Install, update, enable and disable Craftbukkit plugins
@@ -39,7 +39,7 @@ These are the options provided in the file `fillbukkit.cfg`:
 - `craftbukkit`: Path to base Craftbukkit server folder
 - `plugins`: Path to Craftbukkit plugins folder. This shouldn't need to be changed.
 - `update`: Path to the Craftbukkit plugins-update folder. This shouldn't need to be changed.
-- `disabled`: Path to disabled plugins folder. This is where JAR not being run on your server will be temporarily stored.
+- `disabled`: Path to disabled plugins folder. This is where JARs not being run on your server will be temporarily stored.
 - `dlcache`: Path to the folder to keep old downloaded archives. This allows `upgrade` to determine the need to copy new JARs.
 
 ## Plugin List File

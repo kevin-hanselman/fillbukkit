@@ -7,7 +7,7 @@ from lib import fb_config
 
 def cmd(args):
     dl = fb_config.FBDownloadList()
-    data = list(zip(dl.plugins(), dl.keys('description')))
+    data = list(zip(dl.sections(), dl.keys('description')))
 
     if args.d:
         plugs = [(p,d) for p,d in data if re.search(args.pattern, ' '.join([p, d]), re.IGNORECASE)]
