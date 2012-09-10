@@ -1,5 +1,5 @@
 #! /usr/bin/python3
-'''Remove installed plugins'''
+'''Remove/uninstall plugins'''
 
 import argparse
 

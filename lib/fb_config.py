@@ -13,13 +13,15 @@ class ConfigWrap(configparser.ConfigParser):
     '''Base class wrapper'''
     def __init__(self, cfgpath, must_exist=True):
         configparser.ConfigParser.__init__(self)
+        cfgpath = os.path.expanduser(cfgpath)
         if must_exist and not os.path.exists(cfgpath):
             sys.exit('Error: Could not locate file: ' + cfgpath)
         try:
-            self.read(os.path.expanduser(cfgpath))
+            self.read(cfgpath)
         except configparser.ParsingError as ex:
             sys.exit(ex)
-        self.path, self.filename = os.path.split(cfgpath)
+        self.path = cfgpath
+        self.filename = os.path.split(cfgpath)[-1]
 
     def keys(self, key, sects=None):
         if not sects:
@@ -145,5 +147,5 @@ class FBPluginInfo(ConfigWrap):
         self.save()
         
     def save(self):
-        with open(self.filename, 'w') as configfile:
+        with open(self.path, 'w') as configfile:
             self.write(configfile)

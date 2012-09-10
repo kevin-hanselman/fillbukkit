@@ -10,7 +10,7 @@ A command-line Bukkit plugin manager for Craftbukkit-based Minecraft servers.
 ## Requirements
 - Python 3.x
 
-## Want to add a plugin?
+## Want to add support for a plugin?
 Our goal is to expand the list of supported plugins over time. 
 Make a pull request adding the plugin you'd like added to the [list of supported plugins][2]. 
 Follow [the guidelines below][1] when adding a plugin to this list. We appreciate your help!
@@ -27,11 +27,11 @@ Follow [the guidelines below][1] when adding a plugin to this list. We appreciat
     disable                  Disable installed plugins
     enable                   Enable installed plugins
     ls                       List installed plugins
-    rm                       Remove a plugin
+    rm                       Remove/uninstall plugins
     search                   Search for a supported plugin
     upgrade                  Upgrade installed plugins
 
-### Operation Options
+### Sample Operation Options
     -h, --help               See more detailed options for an operation
     -r, --release            Select the plugin release to use (stable, beta, dev)
     -a, --all                Perform operation for all installed plugins
