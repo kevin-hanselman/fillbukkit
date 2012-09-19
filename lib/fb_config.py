@@ -104,7 +104,6 @@ class FBPluginInfo(ConfigWrap):
     def __init__(self):
         fb_cfg = FBConfig()
         path = os.path.join(fb_cfg.base_dir(), 'plugin.info')
-        print(path)
         ConfigWrap.__init__(self, path, False)
     
     def is_installed(self, plugin):
