@@ -15,6 +15,23 @@ Our goal is to expand the list of supported plugins over time.
 Make a pull request adding the plugin you'd like added to the [list of supported plugins][2]. 
 Follow [the guidelines below][1] when adding a plugin to this list. We appreciate your help!
 
+## Setting Up fillbukkit
+The following is just one example of setting up fillbukkit with BASH.
+
+Get a copy of this repository:
+
+    cd ~
+    git clone git://github.com/kevlar1818/fillbukkit.git
+
+Move to the fillbukkit directory and run the main script:
+
+    cd ~/fillbukkit
+    ./fillbukkit
+
+To use fillbukkit anywhere, add the fillbukkit *directory* to your PATH:
+
+    export PATH=$PATH:/home/user/fillbukkit
+
 ## Usage
     fillbukkit <operation> [...]
 

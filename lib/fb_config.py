@@ -103,8 +103,7 @@ class FBPluginInfo(ConfigWrap):
     '''Wrapper for the lists of enabled/disabled plugins'''
     def __init__(self):
         fb_cfg = FBConfig()
-        path = os.path.join(fb_cfg.base_dir(), 'plugin.info')
-        print(path)
+        path = os.path.join(fb_cfg.plugin_dir(), 'plugin.info')
         ConfigWrap.__init__(self, path, False)
     
     def is_installed(self, plugin):
