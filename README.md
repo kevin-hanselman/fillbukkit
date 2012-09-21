@@ -73,6 +73,7 @@ Each plugin name is a `[section]` and has the following options:
 ### Optional Plugin Properties
 - `beta`: URL to the latest beta build of the plugin
 - `dev`: URL to the latest bleeding-edge/dev build of the plugin
+- `files`: a comma separated list of plugin files, used for `fillbukkit rm` and `fillbukkit disable`
 
 [1]:http://github.com/kevlar1818/fillbukkit#plugin-list-file
 [2]:http://github.com/kevlar1818/fillbukkit/blob/master/dl.cfg
